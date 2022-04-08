@@ -1,9 +1,11 @@
 const express = require('express')
-const Error = require('../Errors/Error')
-const OrderModel = require ('../Models/OrdersModel');
+const Error = require('../Errors/Error');
+const cartModel = require('../Models/cartsModel');
+const chartModel = require ('../Models/cartsModel');
 const ProductModel = require('../Models/Products')
 
-newOrder = async (req , res , next)=>{
+newOrderfromcart = async (req , res , next)=>{
+    console.log(req.userId);
     ProductModel.findById(req.body.ProductID)
     .then(Product=>{
         if(!Product){
@@ -11,7 +13,7 @@ newOrder = async (req , res , next)=>{
                 message:"product Not Found"
             })
         }
-        const order = new OrderModel({
+        const order = new chartModel({
             Product:req.body.ProductID,
             Quntity:req.body.quntity,
             userId: req.userId
@@ -30,40 +32,12 @@ newOrder = async (req , res , next)=>{
     })
 }
 
-confrimOrder = async(req,res ,next)=>{
-    const {id} = req.params;
-    const { body :{ status }}= req;
-    try{
-        const updateOrder = await OrderModel.findByIdAndUpdate(id , {
-            status
-       }
-       );
-       res.status(200).json({
-           message:"Updated successfully"
-       })
-    }catch(error){  
-        next(Error({code: "SERVER_ERROR", message: 'server error'}));
-    }
-}
-
-GetOrders = async (req , res , next)=>{
-    // try{
-    //     const AllOrders = await OrderModel.find();
-    //     res.send({ AllOrders });
-    
-    //     }catch(error){  
-    //         next(Error({code: "SERVER_ERROR", message: 'server error'}));
-    
-    //     }
-
-        ////another way
-
-        OrderModel.find()
+GetOrdersfromcart = async (req , res , next)=>{
+        cartModel.find()
         .populate('Product','name')
-        .populate('userId', 'email')
         .exec()
-        .then(Orders=>{
-            res.status(200).json(Orders)
+        .then(cart=>{
+            res.status(200).json(cart)
         })
         .catch(err=>{
             res.status(500).json({
@@ -72,8 +46,8 @@ GetOrders = async (req , res , next)=>{
         })
     }
 
-OneOrder = async (req, res)=>{
-    OrderModel.findById(req.params.OrderId)
+OneOrderfromcart = async (req, res)=>{
+    cartModel.findById(req.params.cartId)
     .exec()
     .then(order=>{
         if(!order){
@@ -90,8 +64,8 @@ OneOrder = async (req, res)=>{
     })
 } 
 
-deleteOrder = async (req , res)=>{
-    OrderModel.findByIdAndDelete(req.params.OrderId)
+deleteOrderfromcart = async (req , res)=>{
+    cartModel.findByIdAndDelete(req.params.cartId)
     .exec()
     .then(result=>{
         if(!result){
@@ -113,4 +87,4 @@ deleteOrder = async (req , res)=>{
 
 
 
-module.exports = {newOrder, GetOrders , OneOrder, deleteOrder,confrimOrder} ;
+module.exports = {newOrderfromcart, GetOrdersfromcart , OneOrderfromcart, deleteOrderfromcart} ;
