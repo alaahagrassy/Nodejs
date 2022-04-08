@@ -34,12 +34,6 @@ module.exports.register =async (req, res, next) => {
 module.exports.login=async (req,res,next)=>{
     const {email, password}=req.body;
     const user=await UserModel.findOne({email});
-    if(!user)
-    {
-        return res.status(401).json({
-            message:"Auth Failed"
-        })
-    }
  user.comparePassword(password ,(err,isMatch)=>{
     if(err)
     {
