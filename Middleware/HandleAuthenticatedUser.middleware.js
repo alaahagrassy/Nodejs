@@ -1,11 +1,10 @@
 const jwt =require('jsonwebtoken');
 require('dotenv').config();
-const jwtSecret = process.env.JWT_SECRET
 
 const handleAuthenticatedUser=(req,res,next)=>{
     try{
         const token=req.headers.authorization.split(" ")[1];
-        const decoded = jwt.verify(token, jwtSecret);
+        const decoded = jwt.verify(token, 'secret');
         req.userId=decoded.userId;
         next();
     }

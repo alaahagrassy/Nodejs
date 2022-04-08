@@ -3,8 +3,6 @@ const UserModel = require('../Models/UserModel')
 const _ = require('lodash');
 const { body, validationResult } = require('express-validator');
 
-require('dotenv').config();
-const jwtSecret = process.env.JWT_SECRET
 
 module.exports.register = async (req, res, next) => {
     const { email, firstName, lastName, password, city, street, zipcode, admin } = req.body;
@@ -42,7 +40,7 @@ module.exports.login = async (req, res, next) => {
         if (isMatch) {
             const userId = user._id;
 
-            const token = jwt.sign({ userId }, jwtSecret);
+            const token = jwt.sign({ userId }, 'secret');
             res.status(200).json({ status: "success", token })
             return;
         }
