@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 require('./db')
 var cors = require('cors')
-const port = 3000;
+const PORT=process.env.PORT || 3000;
 const ProducrRouter = require('./Routers/ProductsRouter');
 const UserRouter = require('./Routers/UserRouter');
 const OrderRouter = require('./Routers/OrderRouter');
@@ -15,6 +15,6 @@ app.use('/products', ProducrRouter);
 app.use('/orders' , OrderRouter);
 app.use('/carts',CartRouter);
 
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+app.listen(PORT, () => {
+    console.log(`Example app listening on port ${PORT}`)
   })
