@@ -2,7 +2,7 @@ const mongoose  = require("mongoose");
 
 const {model}  = mongoose
 
-const OrdersSchema = new mongoose.Schema({
+const chartsSchema = new mongoose.Schema({
 
     Product:{
         type: mongoose.Schema.Types.ObjectId,ref:'Product'},
@@ -14,12 +14,8 @@ const OrdersSchema = new mongoose.Schema({
         required:false,
         type:mongoose.Schema.Types.ObjectId,ref:'User'
     },
-    status:{
-        type:String,
-        default:'pending'
-    }
 })
 
-const OrderModel = model('Order', OrdersSchema);
+const cartModel = model('cart', chartsSchema);
 
-module.exports = OrderModel
+module.exports = cartModel

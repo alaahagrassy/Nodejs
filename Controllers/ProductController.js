@@ -3,14 +3,23 @@ const Error = require('../Errors/Error')
 const ProductModel = require ('../Models/Products');
 require('dotenv').config
 addProduct = async (req , res,next)=>{
-    const { body :{ name , price , description}}=req;
-    try{
-    const product = await ProductModel.create({name,price ,description});
-    res.send(product);
-    }catch(error){  
-        next(Error({code: "SERVER_ERROR", message: 'server error'}));
-
-    }
+    const product = new ProductModel({
+        name:req.body.name,
+        price:req.body.price,
+        description: req.body.description,
+        productImage: req.file.path
+    });
+    product.save()
+    .then(result=>{
+        res.status(201).json({
+            message:"created product successfully",
+        });
+    })
+    .catch(err=>{
+        res.status(500).json({
+            error:err
+        })
+    })
 }
 
 getProduct = async (req , res)=>{
@@ -58,8 +67,8 @@ DeleteProduct = async (req , res, next)=>{
 
 UpdatePdoduct = async (req , res , next)=>{
     const {id} = req.params;
+    const { body :{ name , price , description}}= req;
     try{
-        const { body :{ name , price , description}}= req;
         const UpdateProduct = await ProductModel.findByIdAndUpdate(id , {
            name , price , description
        },{
