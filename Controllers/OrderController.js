@@ -1,5 +1,6 @@
 const express = require('express')
-const Error = require('../Errors/Error')
+const Error = require('../Errors/Error');
+const cartModel = require('../Models/cartsModel');
 const OrderModel = require('../Models/OrdersModel');
 const ProductModel = require('../Models/Products')
 
@@ -110,7 +111,19 @@ deleteOrder = async (req, res) => {
             })
         })
 }
+deleteallorders = async(req , res ,next)=>{
+    OrderModel.deleteMany()
+    .then(result=>{
+        res.status(200).json({
+            message:'All Deleted'
+        })
+    }).catch(err=>{
+        res.status(500).json({
+            error:err
+        })
+    })
+}
 
 
 
-module.exports = { newOrder, GetOrders, OneOrder, deleteOrder, confrimOrder };
+module.exports = { newOrder, GetOrders, OneOrder, deleteOrder, confrimOrder,deleteallorders };
