@@ -1,11 +1,9 @@
 const express = require('express')
 const Error = require('../Errors/Error');
 const cartModel = require('../Models/cartsModel');
-const chartModel = require ('../Models/cartsModel');
 const ProductModel = require('../Models/Products')
 
 newOrderfromcart = async (req , res , next)=>{
-    console.log(req.userId);
     ProductModel.findById(req.body.ProductID)
     .then(Product=>{
         if(!Product){
@@ -13,7 +11,7 @@ newOrderfromcart = async (req , res , next)=>{
                 message:"product Not Found"
             })
         }
-        const order = new chartModel({
+        const order = new cartModel({
             Product:req.body.ProductID,
             Quntity:req.body.quntity,
             userId: req.userId
@@ -35,6 +33,7 @@ newOrderfromcart = async (req , res , next)=>{
 GetOrdersfromcart = async (req , res , next)=>{
         cartModel.find()
         .populate('Product','name')
+        .populate('userId' , 'email')
         .exec()
         .then(cart=>{
             res.status(200).json(cart)

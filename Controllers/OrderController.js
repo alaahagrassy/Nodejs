@@ -60,7 +60,7 @@ GetOrders = async (req, res, next) => {
 
     OrderModel.find()
         .populate('Product', 'name')
-        .populate('userId', 'email')
+        .populate('userId', 'email' )
         .exec()
         .then(Orders => {
             res.status(200).json(Orders)
