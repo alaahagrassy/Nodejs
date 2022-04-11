@@ -39,9 +39,10 @@ module.exports.login = async (req, res, next) => {
         }
         if (isMatch) {
             const userId = user._id;
+            const admin = user.admin;
 
             const token = jwt.sign({ userId }, 'secret');
-            res.status(200).json({ status: "success", token })
+            res.status(200).json({ status: "success", token , admin })
             return;
         }
 
