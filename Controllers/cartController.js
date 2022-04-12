@@ -33,13 +33,13 @@ newOrderfromcart = async (req, res, next) => {
 }
 
 GetOrdersfromcart = async (req, res, next) => {
-    cartModel.find()
-        .populate('Product', 'productImage')
-        .populate('userId', 'firstName')
+    const userId = req.userId;
+    cartModel.find({userId})
+        .populate('Product', ['name','price','description', 'productImage'])
+        .populate('userId', ['firstName','lastName','city'])
         .exec()
-        .then(cart => {
-        
-            res.status(200).json(cart)
+        .then(cartuser => {
+            res.status(200).json(cartuser)
         })
     
         .catch(err => {
