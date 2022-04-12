@@ -3,6 +3,7 @@ const Error = require('../Errors/Error');
 const cartModel = require('../Models/cartsModel');
 const OrderModel = require('../Models/OrdersModel');
 const ProductModel = require('../Models/Products')
+const UserModel = require('../Models/UserModel')
 
 newOrder = async (req, res, next) => {
     ProductModel.findById(req.body.ProductID)
@@ -93,6 +94,9 @@ OneOrder = async (req, res) => {
 
 deleteOrder = async (req, res) => {
     OrderModel.findByIdAndDelete(req.params.OrderId)
+    const userId = req.userId
+    const admin = userId.findById(userId)
+    console.log(admin)
         .exec()
         .then(result => {
             if (!result) {

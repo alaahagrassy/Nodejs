@@ -22,7 +22,7 @@ router.post('/' , upload.single('productImage'),Controllers.addProduct)
 
 router.get('/' , Controllers.getProduct)
 router.get('/:id' , Controllers.getProductByID)
-router.delete('/:id',checkauth, Controllers.DeleteProduct)
-router.patch('/:id' ,checkauth, Controllers.UpdatePdoduct)
+router.delete('/:id', Controllers.DeleteProduct)
+router.patch('/:id' , Controllers.UpdatePdoduct)
 
 module.exports = router
