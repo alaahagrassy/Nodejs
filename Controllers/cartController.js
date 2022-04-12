@@ -34,12 +34,14 @@ newOrderfromcart = async (req, res, next) => {
 
 GetOrdersfromcart = async (req, res, next) => {
     cartModel.find()
-        .populate('Product', 'name')
-        .populate('userId', 'email')
+        .populate('Product', 'productImage')
+        .populate('userId', 'firstName')
         .exec()
         .then(cart => {
+        
             res.status(200).json(cart)
         })
+    
         .catch(err => {
             res.status(500).json({
                 error: err
