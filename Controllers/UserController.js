@@ -3,7 +3,6 @@ const UserModel = require('../Models/UserModel')
 const _ = require('lodash');
 const { body, validationResult } = require('express-validator');
 
-
 module.exports.register = async (req, res, next) => {
     const { email, firstName, lastName, password, city, street, zipcode, admin } = req.body;
     const errors = validationResult(req);
